@@ -51,7 +51,7 @@ pipeline {
             steps {
                 echo 'Push'
 
-                sh "aws s3 cp target/sample-1.0.3.jar s3://jenkinsallstagebucket"
+                sh "aws s3 cp target/sample-1.0.3.jar s3://bucketmultistage"
             }
         }
 
