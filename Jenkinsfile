@@ -17,7 +17,7 @@ pipeline {
 
 
         stage("SonarQube analysis") {
-            agent any
+            // agent any
 
             when {
                 anyOf {
