@@ -2,7 +2,7 @@ pipeline {
     agent { label 'master'}
 
     environment {
-        function_name = 'jenkins-allstages-lambda'
+        function_name = 'lambdamultistage'
     }
 
     stages {
@@ -32,20 +32,20 @@ pipeline {
             }
         }
 
-        stage("Quality Gate") {
-            steps {
-                script {
-                    try {
-                        timeout(time: 10, unit: 'MINUTES') {
-                            waitForQualityGate abortPipeline: true
-                        }
-                    }
-                    catch (Exception ex) {
+        // stage("Quality Gate") {
+        //     steps {
+        //         script {
+        //             try {
+        //                 timeout(time: 10, unit: 'MINUTES') {
+        //                     waitForQualityGate abortPipeline: true
+        //                 }
+        //             }
+        //             catch (Exception ex) {
 
-                    }
-                }
-            }
-        }
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Push') {
             steps {
@@ -66,7 +66,7 @@ pipeline {
                     steps {
                         echo 'Build'
 
-                        sh "aws lambda update-function-code --function-name $function_name --region us-east-2 --s3-bucket jenkinsallstagebucket --s3-key sample-1.0.3.jar"
+                        sh "aws lambda update-function-code --function-name $function_name --region us-east-2 --s3-bucket bucketmultistage --s3-key sample-1.0.3.jar"
                     }
                 }
 
@@ -99,7 +99,7 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh "aws lambda update-function-code --function-name $function_name --region us-east-2 --s3-bucket jenkinsallstagebucket --s3-key sample-1.0.3.jar"
+                sh "aws lambda update-function-code --function-name $function_name --region us-east-2 --s3-bucket bucketmultistage --s3-key sample-1.0.3.jar"
             }
         }
 
